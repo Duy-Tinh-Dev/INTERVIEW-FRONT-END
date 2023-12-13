@@ -1,9 +1,32 @@
+'use client';
+
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Logo from '@/components/common/Logo';
 import Button from '@/components/common/Button';
 import logoTransparent from '@/public/images/logo_transparent.svg';
 
 const Intro = () => {
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  const handleLogin = () => {
+    signIn();
+  };
+
+  const handleLogout = () => {
+    signOut();
+  };
+
+  const handleLaunchApp = () => {
+    if (session?.user) {
+      router.push('/test2');
+    } else {
+      signIn();
+    }
+  };
+
   return (
     <section className="container mb-14 lg:mb-20 flex flex-wrap justify-between items-start">
       <div className="w-full md:w-1/2 order-1 md:order-none">
@@ -22,12 +45,31 @@ const Intro = () => {
             </Button>
           </div>
           <div className="flex justify-between space-x-2 lg:space-x-10">
-            <Button className="px-2 lg:px-12 w-full py-2" type="primary">
-              Log in
-            </Button>
+            {session !== undefined && (
+              <>
+                {session?.user ? (
+                  <Button
+                    className="px-2 lg:px-12 w-full py-2"
+                    type="primary"
+                    onClick={handleLogout}
+                  >
+                    Log Out
+                  </Button>
+                ) : (
+                  <Button
+                    className="px-2 lg:px-12 w-full py-2"
+                    type="primary"
+                    onClick={handleLogin}
+                  >
+                    Log in
+                  </Button>
+                )}
+              </>
+            )}
             <Button
               className="px-2 lg:px-12 w-full py-2 shadow-sm"
               type="secondary"
+              onClick={handleLaunchApp}
             >
               Launch App
             </Button>
