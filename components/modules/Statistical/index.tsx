@@ -10,7 +10,7 @@ const Statistical = () => {
       <div className="bg-white/[.5] border border-white rounded-lg">
         <div className="px-3 md:px-10 lg:px-27 py-11 flex justify-between items-center flex-wrap gap-y-4">
           {listStatistical.map((itemStatistical) => (
-            <div key={itemStatistical.key} className="text-center w-full sm:w-1/3">
+            <div className="text-center w-full sm:w-1/3">
               <h3 className="text-3xl lg:text-5xl text-blue-900 mb-3">
                 {itemStatistical.value}
               </h3>
